@@ -17,6 +17,9 @@ export default defineConfig(({ mode }) => {
       alias: {
         '@': './'
       }
+    },
+    build: {
+      outDir: 'dist', // ❗ This is required for Render static hosting
     }
   };
 });
