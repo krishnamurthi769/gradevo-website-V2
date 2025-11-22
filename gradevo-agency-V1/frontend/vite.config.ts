@@ -25,7 +25,12 @@ export default defineConfig(({ mode }) => {
         output: {
           manualChunks(id) {
             if (id.includes('node_modules')) {
-              if (id.includes('three') || id.includes('@react-three')) {
+              // Keep @react-three with React in the main vendor chunk to avoid context issues
+              if (id.includes('@react-three')) {
+                return 'vendor';
+              }
+              // Split the heavy 'three' library
+              if (id.includes('three')) {
                 return 'three-vendor';
               }
               if (id.includes('gsap') || id.includes('framer-motion')) {
