@@ -7,6 +7,7 @@ import CTABanner from '../components/CTABanner';
 
 const About: React.FC = () => {
   const [content, setContent] = useState<Record<string, string>>({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchContent = async () => {
@@ -20,6 +21,8 @@ const About: React.FC = () => {
         setContent(contentMap);
       } catch (err) {
         console.error('Failed to fetch content', err);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -42,11 +45,15 @@ const About: React.FC = () => {
           </div>
           <div className="relative">
             <div className="absolute inset-0 border-2 border-gradevo-red translate-x-4 translate-y-4 rounded-xl" />
-            <img
-              src={content.story_image ? (content.story_image.startsWith('http') ? content.story_image : `${import.meta.env.VITE_API_URL}${content.story_image}`) : "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=800"}
-              alt="Team working"
-              className="relative rounded-xl grayscale hover:grayscale-0 transition-all duration-500 w-full h-full object-cover"
-            />
+            {loading ? (
+              <div className="relative rounded-xl bg-white/5 animate-pulse w-full h-[400px]" />
+            ) : (
+              <img
+                src={content.story_image ? (content.story_image.startsWith('http') ? content.story_image : `${import.meta.env.VITE_API_URL}${content.story_image}`) : "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=800"}
+                alt="Team working"
+                className="relative rounded-xl grayscale hover:grayscale-0 transition-all duration-500 w-full h-full object-cover"
+              />
+            )}
           </div>
         </div>
 
